@@ -1,0 +1,16 @@
+services:
+  influxdb:
+    restart: unless-stopped
+    image: influxdb:latest
+    volumes:
+      - /data/monitoring/db:/var/lib/influxdb2:rw
+    ports:
+      - "8086:8086"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.influx.rule: Host(`influx.app.danielr1996.de`)
+      traefik.http.routers.influx.tls.certresolver: letsencrypt
+      de.danielr1996.bashdoard.name: InfluxDB
+      de.danielr1996.bashdoard.url: https://influx.app.danielr1996.de
+      de.danielr1996.bashdoard.icon: /favicon.ico
+      de.danielr1996.bashdoard.id: influx
