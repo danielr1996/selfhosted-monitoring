@@ -1,16 +1,21 @@
 services:
-  influxdb:
+  prometheus:
+    image: prom/prometheus:latest
     restart: unless-stopped
-    image: influxdb:latest
-    volumes:
-      - /data/monitoring/db:/var/lib/influxdb2:rw
     ports:
-      - "8086:8086"
-    labels:
-      traefik.enable: true
-      traefik.http.routers.influx.rule: Host(`influx.app.danielr1996.de`)
-      traefik.http.routers.influx.tls.certresolver: letsencrypt
-      de.danielr1996.bashdoard.name: InfluxDB
-      de.danielr1996.bashdoard.url: https://influx.app.danielr1996.de
-      de.danielr1996.bashdoard.icon: /favicon.ico
-      de.danielr1996.bashdoard.id: influx
+      - 9090:9090
+    volumes:
+      - ./container/prometheus:/etc/prometheus
+      - ./data/monitoring/prometheus:/prometheus
+    command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
+  proxmox-exporter:
+    image: ghcr.io/danielr1996/proxmox-exporter:latest
+    restart: unless-stopped
+    ports:
+      - 9876:9876
+    environment:
+      PROXMOX_HOST: proxmox.app.danielr1996.de
+      PROXMOX_PORT: 80
+      PROXMOX_USERNAME: root@pam
+    env_file:
+      .env
