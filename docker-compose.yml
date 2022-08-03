@@ -2,12 +2,31 @@ services:
   prometheus:
     image: prom/prometheus:latest
     restart: unless-stopped
-    ports:
-      - 9090:9090
     volumes:
       - ./container/prometheus:/etc/prometheus
       - /data/monitoring/prometheus:/prometheus
     command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
+    labels:
+      de.danielr1996.bashdoard.name: Prometheus
+      de.danielr1996.bashdoard.url: https://prometheus.app.danielr1996.de
+      de.danielr1996.bashdoard.icon: /favicon.ico
+      de.danielr1996.bashdoard.id: prometheus
+      traefik.enable: true
+      traefik.http.routers.calendar.rule: Host(`prometheus.app.danielr1996.de`)
+      traefik.http.routers.calendar.tls.certresolver: letsencrypt
+  grafana:
+    image: grafana/grafana-enterprise:8.2.0
+    restart: unless-stopped
+    volumes:
+      - /data/monitoring/grafana:/var/lib/grafana
+    labels:
+      de.danielr1996.bashdoard.name: Grafana
+      de.danielr1996.bashdoard.url: https://grafana.app.danielr1996.de
+      de.danielr1996.bashdoard.icon: /favicon.ico
+      de.danielr1996.bashdoard.id: grafana
+      traefik.enable: true
+      traefik.http.routers.calendar.rule: Host(`grafana.app.danielr1996.de`)
+      traefik.http.routers.calendar.tls.certresolver: letsencrypt
   proxmox-exporter:
     image: ghcr.io/danielr1996/proxmox-exporter:latest
     restart: unless-stopped
