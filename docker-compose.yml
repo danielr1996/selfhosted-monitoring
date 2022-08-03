@@ -12,8 +12,8 @@ services:
       de.danielr1996.bashdoard.icon: /favicon.ico
       de.danielr1996.bashdoard.id: prometheus
       traefik.enable: true
-      traefik.http.routers.calendar.rule: Host(`prometheus.app.danielr1996.de`)
-      traefik.http.routers.calendar.tls.certresolver: letsencrypt
+      traefik.http.routers.prometheus.rule: Host(`prometheus.app.danielr1996.de`)
+      traefik.http.routers.prometheus.tls.certresolver: letsencrypt
   grafana:
     image: grafana/grafana-enterprise:8.2.0
     restart: unless-stopped
@@ -25,8 +25,8 @@ services:
       de.danielr1996.bashdoard.icon: /favicon.ico
       de.danielr1996.bashdoard.id: grafana
       traefik.enable: true
-      traefik.http.routers.calendar.rule: Host(`grafana.app.danielr1996.de`)
-      traefik.http.routers.calendar.tls.certresolver: letsencrypt
+      traefik.http.routers.grafana.rule: Host(`grafana.app.danielr1996.de`)
+      traefik.http.routers.grafana.tls.certresolver: letsencrypt
   proxmox-exporter:
     image: ghcr.io/danielr1996/proxmox-exporter:latest
     restart: unless-stopped
