@@ -6,7 +6,7 @@ services:
       - 9090:9090
     volumes:
       - ./container/prometheus:/etc/prometheus
-      - ./data/monitoring/prometheus:/prometheus
+      - /data/monitoring/prometheus:/prometheus
     command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
   proxmox-exporter:
     image: ghcr.io/danielr1996/proxmox-exporter:latest
